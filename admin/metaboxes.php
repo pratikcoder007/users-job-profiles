@@ -28,6 +28,8 @@ class WCJ_Profile_Metaboxes
         $experience = get_post_meta($post->ID, '_wcj_experience', true);
         $ratings = get_post_meta($post->ID, '_wcj_ratings', true);
         $jobs_completed = get_post_meta($post->ID, '_wcj_jobs_completed', true);
+        $age = get_post_meta($post->ID, '_wcj_age', true);
+
 
         // Output form fields in a table layout
         ?>
@@ -56,6 +58,10 @@ class WCJ_Profile_Metaboxes
                 <th scope="row"><label for="wcj_jobs_completed"><?php _e('No Jobs Completed:', 'users-job-profiles'); ?></label></th>
                 <td><input type="number" name="wcj_jobs_completed" id="wcj_jobs_completed" value="<?php echo esc_attr($jobs_completed); ?>"></td>
             </tr>
+            <tr>
+                <th scope="row"><label for="wcj_age"><?php _e('Age', 'users-job-profiles'); ?></label></th>
+                <td><input type="number" name="wcj_age" id="wcj_age" value="<?php echo esc_attr($age); ?>"></td>
+            </tr>
         </table>
         <?php
     }
@@ -69,6 +75,8 @@ class WCJ_Profile_Metaboxes
         update_post_meta($post_id, '_wcj_experience', absint($_POST['wcj_experience']));
         update_post_meta($post_id, '_wcj_ratings', absint($_POST['wcj_ratings']));
         update_post_meta($post_id, '_wcj_jobs_completed', absint($_POST['wcj_jobs_completed']));
+        update_post_meta($post_id, '_wcj_age', absint($_POST['wcj_age']));
+
     }
 }
 

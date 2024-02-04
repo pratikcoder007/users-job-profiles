@@ -33,7 +33,7 @@ if (!class_exists('Users_Job_Profiles')) :
          */
         public function __construct()
         {
-            $this->version = get_file_data(__FILE__, array('Version' => 'Version'), false);
+            $this->version = '1.0.0';
 
             // Include other necessary files
             require_once('admin/mp-profiles.php');
@@ -42,13 +42,13 @@ if (!class_exists('Users_Job_Profiles')) :
 
 
             // Instantiate the class to register the custom post type
-        new WCJ_Profiles();
+            new WCJ_Profiles();
 
-        // Instantiate the shortcode class
-        new WCJ_Profiles_Shortcode();
+            // Instantiate the shortcode class
+            new WCJ_Profiles_Shortcode();
 
             // Enqueue assets
-            add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
+            add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
         }
 
         /**
@@ -57,11 +57,12 @@ if (!class_exists('Users_Job_Profiles')) :
         public function enqueue_assets()
         {
             // Enqueue CSS
-            wp_enqueue_style('wcj-profiles-css', plugin_dir_url(__FILE__) . 'assets/styles.css', array(), $this->version, 'all');
+            wp_enqueue_style('wcj-profiles-css', plugin_dir_url(__FILE__) . 'public/css/users-job-profiles-public.css', array(), $this->version, 'all');
 
             // Enqueue JS
-            wp_enqueue_script('wcj-profiles-js', plugin_dir_url(__FILE__) . 'assets/script.js', array('jquery'), $this->version, true);
+            wp_enqueue_script('wcj-profiles-js', plugin_dir_url(__FILE__) . 'public/js/users-job-profiles-public.js', array('jquery'), $this->version, true);
         }
+
     }
 
     // Instantiate the main class

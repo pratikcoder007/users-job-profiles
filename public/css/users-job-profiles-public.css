@@ -2,3 +2,11 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+.wcj-profiles-table {width: 100%;border-collapse: collapse;margin-top: 20px;}
+.wcj-profiles-table th,.wcj-profiles-table td {border: 1px solid #2b2d2f;padding: 20px;text-align: left;}
+.wcj-profiles-table th {background-color: #f2f2f2;cursor: pointer;}
+.wcj-profiles-pagination{width: 100%;text-align: center;}
+.star-rating { line-height:32px; font-size:1.25em; }
+.star-rating .fa-star{ color: #fdcc0d; }
+
+

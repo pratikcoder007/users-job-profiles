@@ -1,32 +1,33 @@
-(function( $ ) {
-	'use strict';
+jQuery(document).ready(function ($) {
+   
+	$("#SelectSkills").select2({
+	    allowClear: true
+	});
+	$("#SelectEducation").select2({
+	    allowClear: true
+	});
+  	var slider = document.getElementById("AgeRange");
+  	var output = document.getElementById("AgeNumber");
+  	output.innerHTML = slider.value; 
+	  slider.oninput = function() {
+	    output.innerHTML = this.value;
+	  }
 
-	/**
-	 * All of the code for your public-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
+  	var $star_rating = $('.star-rating .fa');
+  	var SetRatingStar = function() {
+    return $star_rating.each(function() {
+      if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+        return $(this).removeClass('fa-star-o').addClass('fa-star');
+      } else {
+        return $(this).removeClass('fa-star').addClass('fa-star-o');
+      }
+    });
+  };
 
-})( jQuery );
+  $star_rating.on('click', function() {
+    $star_rating.siblings('input.rating-value').val($(this).data('rating'));
+    return SetRatingStar();
+  });
+
+  SetRatingStar();
+});
