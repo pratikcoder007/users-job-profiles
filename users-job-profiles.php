@@ -1,71 +1,75 @@
 <?php
-/*
+/**
  * Plugin Name:       Users Job Profiles
- * Description:       This plugin is used to create a profile listing page with search and sorting functionality. To display on the frontend, please use this shortcode:
- * Version:           1.0.0
+ * Description:       This plugin is used to create a profile listing page with search and sorting functionality. To display on the frontend, please use this shortcode: [wcj_profiles]
+ * Version:           1.0.3
  * Author:            Pratik
  * Text Domain:       users-job-profiles
  */
 
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
 }
 
-if (!class_exists('Users_Job_Profiles')) :
+if ( ! class_exists( 'Users_Job_Profiles' ) ) :
 
-    /**
-     * Main Users_Job_Profiles Class
-     *
-     * @class   Users_Job_Profiles
-     * @version 1.0.0
-     * @since   1.0.0
-     */
-    class Users_Job_Profiles
-    {
-        private $version;
+	/**
+	 * Main Users_Job_Profiles Class
+	 *
+	 * @class   Users_Job_Profiles
+	 * @version 1.0.0
+	 * @since   1.0.0
+	 */
+	class Users_Job_Profiles {
 
-        /**
-         * Users_Job_Profiles Constructor.
-         *
-         * @version 1.0.0
-         * @since   1.0.0
-         * @access  public
-         */
-        public function __construct()
-        {
-            $this->version = '1.0.0';
+		/**
+		 * Users Job Profiles version.
+		 *
+		 * @var   string
+		 * @since 2.4.7
+		 */
+		public $version = '1.0.4';
 
-            // Include other necessary files
-            require_once('admin/mp-profiles.php');
-            require_once('admin/metaboxes.php');
-            require_once('public/shortcode-Handler.php');
+		/**
+		 * Users_Job_Profiles Constructor.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 */
+		public function __construct() {
 
+			// Include other necessary files.
+			require_once 'admin/class-wcj-profiles.php';
+			require_once 'admin/class-wcj-profile-metaboxes.php';
+			require_once 'public/class-wcj-profiles-shortcode.php';
 
-            // Instantiate the class to register the custom post type
-            new WCJ_Profiles();
+			// Enqueue assets.
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		}
 
-            // Instantiate the shortcode class
-            new WCJ_Profiles_Shortcode();
+		/**
+		 * Enqueue CSS and JS assets.
+		 */
+		public function enqueue_assets() {
+			// Enqueue CSS.
+			wp_enqueue_style( 'wcj-profiles-css', plugin_dir_url( __FILE__ ) . 'public/css/users-job-profiles-public.css', array(), $this->version, 'all' );
 
-            // Enqueue assets
-            add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
-        }
+			// Enqueue JS.
+			wp_enqueue_script( 'wcj-profiles-js', plugin_dir_url( __FILE__ ) . 'public/js/users-job-profiles-public.js', array( 'jquery' ), $this->version, true );
 
-        /**
-         * Enqueue CSS and JS assets.
-         */
-        public function enqueue_assets()
-        {
-            // Enqueue CSS
-            wp_enqueue_style('wcj-profiles-css', plugin_dir_url(__FILE__) . 'public/css/users-job-profiles-public.css', array(), $this->version, 'all');
+			// Pass Ajax Url to users-job-profiles-public.js
+			wp_localize_script(
+				'wcj-profiles-js',
+				'ajax_object',
+				array(
+					'ajax_url' => admin_url( 'admin-ajax.php' ),
+					'nonce'    => wp_create_nonce( 'search_nonce' ),
+				)
+			);
+		}
+	}
 
-            // Enqueue JS
-            wp_enqueue_script('wcj-profiles-js', plugin_dir_url(__FILE__) . 'public/js/users-job-profiles-public.js', array('jquery'), $this->version, true);
-        }
-
-    }
-
-    // Instantiate the main class
-    new Users_Job_Profiles();
+	// Instantiate the main class.
+	new Users_Job_Profiles();
 
 endif;
